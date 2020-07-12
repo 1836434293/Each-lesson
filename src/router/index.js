@@ -87,6 +87,10 @@ Vue.use(VueRouter)
           next('loding')
         }
       }
+    },
+    {
+      path:'details',
+      component:() => import('../components/Details')
     }
     ]
   },{

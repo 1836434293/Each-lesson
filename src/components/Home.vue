@@ -24,12 +24,12 @@
           </li>
         </ul>
       </div>
-      <div class="box" v-for="(item,index) of list" :key="index">
+      <div class="box" style="margin-bottom:65px" v-for="(item,index) of list" :key="index">
         <!-- 名师阵容 -->
         <div class="ms" v-if="item.channel_info.type == 3">
           <h5>{{ item.channel_info.name }}</h5>
           <ul>
-            <li v-for="(v,i) of item.list " :key="i">
+            <li v-for="(v,i) of item.list " :key="i" @click="getDetails(v)">
               <img :src="v.teacher_avatar" alt />
               <h2>
                 <p>{{ v.teacher_name }}</p>
@@ -110,6 +110,27 @@ export default {
       );
       // console.log(res);
       this.list = res.data;
+    },
+    async getDetails(v){
+      let { data } = await this.$axios.get(`https://www.365msmk.com/api/app/teacher/${v.teacher_id}`)
+      window.console.log(data)
+      var temp = JSON.parse(window.localStorage.getItem('token'))
+      if(temp){
+        this.$router.push({
+          path:'details',
+          query:{
+            id:v.teacher_id,
+            img:data.data.teacher.avatar,
+            sex:data.data.teacher.sex,
+            level_name:data.data.teacher.level_name,
+            teach_age:data.data.teacher.teach_age,
+            teacher_name:data.data.teacher.teacher_name
+          }
+        })
+      }else{
+        alert('需要先登录哦')
+        this.$router.push('loding')
+      }
     }
   },
   filters: {
