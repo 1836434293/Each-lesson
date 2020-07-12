@@ -91,15 +91,15 @@ methods:{
  ul{
    width: 100%;
   display: flex;
-  height: 97%;
+  height: 99%;
   flex-wrap: wrap;
   margin-top: 20px;
+  padding:10px 0px ;
  }
  li{
    width: 25%;
    height: 50%;
    text-align: center;
-   margin-top: 10px;
  }
  .quan{
    width:70px;
@@ -121,8 +121,7 @@ methods:{
  .content{
    width: 95%;
    background: white;
-   padding: 10px 20px;
-   margin-top:  20px;
+   margin:20px auto;
  }
  .content h3{
    font-size: 30px;
