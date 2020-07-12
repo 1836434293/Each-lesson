@@ -230,7 +230,6 @@ export default {
     width: 100%;
     height: 95px;
     background:#EB6100 ;
-    z-index: 999;
     display: flex;
     justify-content: center;
     align-items: center;
