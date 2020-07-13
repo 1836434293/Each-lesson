@@ -75,6 +75,7 @@ export default {
     },
     mounted(){
         this.getDetails()
+        this.getLecture()
     },
     methods:{
         async getDetails(){
@@ -83,15 +84,13 @@ export default {
             this.obj = res.data
             this.list =res.data.attr
             },
-        
+        async getLecture(){
+            let {data:res} = await this.$axios.post('https://www.365msmk.com/api/app/teacher/mainCourse')
+            this.lectureList = res.data.list
+        },
+
         selClick(s){
             this.sel = s
-            if(this.sel == '主讲课程'){
-                this.$axios.post('https://www.365msmk.com/api/app/teacher/mainCourse').then((resp)=>{
-                    window.console.log(resp.data.data.list)
-                    this.lectureList = resp.data.data.list
-                })
-            }
         }
     },
     filters:{
