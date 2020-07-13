@@ -57,7 +57,7 @@ export default {
                 alert('手机号错误')
                 return
             }
-            this.$axios.post('/api/app/login',{mobile:mobile,password:this.pass,type:1}).then((resp)=>{
+            this.http.post('/api/app/login',{mobile:mobile,password:this.pass,type:1}).then((resp)=>{
                 window.console.log(resp)
                 if(resp.data.code == 201){
                     alert(resp.data.msg)

@@ -8,7 +8,7 @@ if (!DeviceID) {
 }
 let ID = DeviceID;
 // console.log(ID)
-axios.defaults.baseURL = 'http://120.53.31.103:84';
+axios.defaults.baseURL = 'https://www.365msmk.com';
 
 // 请求拦截器
 axios.interceptors.request.use(function(res){
@@ -16,7 +16,11 @@ axios.interceptors.request.use(function(res){
         DeviceID:ID,
         DeviceType:"H5"
     }
-//    let to =  localStorage.getItem("token")
+   let token =  JSON.parse(localStorage.getItem("token"))
+    if(token){
+        res.headers.Authorization = `Bearer ${token}`
+    }
+
     return res;
 }),function(error){
     return Promise.reject(error)

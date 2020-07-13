@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="details_header">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAPCAYAAADd/14OAAAA/ElEQVQoU33RsUvWYRTF8c8hQmgIE4e2IFDQIfCPcHGIlBpqcWtPcFHBFgWdHGxykURxUtfWZkfHtkZBCBzcrjzxe+P9ha/P9sD33nPuOfHIq6pJnOBZRnFVNYdzvML+g2BVfcIBnuJLkm89sKqeYAcruMaHJD+b6j+wqiZwinlcYinJ74G1v2BVven8vMYRPie5G/afqnqPQ4xhNcneQwc28AYvsJ1kfVQKDVzAMZ5jE1tJ6v+BgcdpXGAGZ1hOctvzOPhUVdvYDnmLKywm+dW7eghuCl+xgT/4mORHL8dhmap6h++tY6wl2X2s69nO91SLbyTYFTHebX55D93jTsSH0JDDAAAAAElFTkSuQmCC" />
+            <img @click="back" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAPCAYAAADd/14OAAAA/ElEQVQoU33RsUvWYRTF8c8hQmgIE4e2IFDQIfCPcHGIlBpqcWtPcFHBFgWdHGxykURxUtfWZkfHtkZBCBzcrjzxe+P9ha/P9sD33nPuOfHIq6pJnOBZRnFVNYdzvML+g2BVfcIBnuJLkm89sKqeYAcruMaHJD+b6j+wqiZwinlcYinJ74G1v2BVven8vMYRPie5G/afqnqPQ4xhNcneQwc28AYvsJ1kfVQKDVzAMZ5jE1tJ6v+BgcdpXGAGZ1hOctvzOPhUVdvYDnmLKywm+dW7eghuCl+xgT/4mORHL8dhmap6h++tY6wl2X2s69nO91SLbyTYFTHebX55D93jTsSH0JDDAAAAAElFTkSuQmCC" />
             <div style="font-size:0.5rem;margin-top:0.2rem;color:white">讲师详情</div>
             <div></div>
         </div>
@@ -14,7 +14,7 @@
                 <div style="font-size:0.35rem;margin-top:0.2rem;color:gray"><span>{{this.$route.query.sex | sex}}</span> <span>{{this.$route.query.teach_age}}年教龄</span></div>
             </div>
             <div class="details_tearch_img">
-                <button>关注</button>
+                <button @click="concerns">{{concern}}</button>
             </div>
         </div>
         <div class="details_content">
@@ -76,7 +76,8 @@ export default {
             sel:'讲师介绍',
             obj:{},
             list:[],
-            lectureList:[] 
+            lectureList:[] ,
+            concern:'关注'
         }
     },
     mounted(){
@@ -85,18 +86,30 @@ export default {
     },
     methods:{
         async getDetails(){
-            let { data:res } = await this.$axios.get(`https://www.365msmk.com/api/app/teacher/info/${this.$route.query.id}}`)
+            let { data:res } = await this.http.get(`/api/app/teacher/info/${this.$route.query.id}}`)
             window.console.log(res)
             this.obj = res.data
             this.list =res.data.attr
             },
         async getLecture(){
-            let {data:res} = await this.$axios.post('https://www.365msmk.com/api/app/teacher/mainCourse')
+            let {data:res} = await this.http.post('/api/app/teacher/mainCourse')
             this.lectureList = res.data.list
         },
 
         selClick(s){
             this.sel = s
+        },
+        back(){
+            window.history.back()
+        },
+        async concerns(){
+            let {data} = await this.http.get(`/api/app/teacher/collect/${this.$route.query.id}`)
+            window.console.log(data)
+            if(data.data.flag != 0){
+                this.concern = '已关注'
+            }else{
+                this.concern = '关注'
+            }
         }
     },
     filters:{

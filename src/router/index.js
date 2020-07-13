@@ -90,6 +90,12 @@ Vue.use(VueRouter)
       meta:{
         isshow:false
       }
+    },{
+      path:'courses',
+      component:() => import('../components/Courses.vue'),
+      meta:{
+        isshow:false
+      }
     },
     {
      path:'simulation',

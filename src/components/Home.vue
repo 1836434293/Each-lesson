@@ -42,7 +42,7 @@
         <div class="jing" v-if="item.channel_info.type == 1">
           <h5>{{ item.channel_info.name }}</h5>
           <ul>
-            <li v-for="(v,i) of item.list" :key="i">
+            <li v-for="(v,i) of item.list" :key="i" @click="courses(v)">
               <h4>{{ v.title }}</h4>
               <div class="bo">
                 <h3 v-for="(m,n) of v.teachers_list" :key="n">
@@ -97,22 +97,22 @@ export default {
     },
     // 轮播图
     async Banner() {
-      let { data: res } = await this.$axios.get(
-        "https://www.365msmk.com/api/app/banner"
+      let { data: res } = await this.http.get(
+        "/api/app/banner"
       );
       // console.log(res);
       this.banner = res.data;
     },
     // 首页列表
     async mi() {
-      let { data: res } = await this.$axios.get(
-        "https://www.365msmk.com/api/app/recommend/appIndex"
+      let { data: res } = await this.http.get(
+        "/api/app/recommend/appIndex"
       );
       // console.log(res);
       this.list = res.data;
     },
     async getDetails(v){
-      let { data } = await this.$axios.get(`https://www.365msmk.com/api/app/teacher/${v.teacher_id}`)
+      let { data } = await this.http.get(`/api/app/teacher/${v.teacher_id}`)
       window.console.log(data)
       var temp = JSON.parse(window.localStorage.getItem('token'))
       if(temp){
@@ -131,6 +131,15 @@ export default {
         alert('需要先登录哦')
         this.$router.push('loding')
       }
+    },
+    courses(v){
+      // window.console.log(v)
+      this.$router.push({
+        path:'courses',
+        query:{
+          id:v.id
+        }
+      })
     }
   },
   filters: {
