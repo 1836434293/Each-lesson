@@ -2,7 +2,6 @@
   <div class="shop">
     <router-view />
     <!-- 邮件留言 -->
-    <div class="yj" @click="ly"><img src="../assets/img/lx_22.jpg" alt=""></div>
     <van-tabbar route v-show="this.$route.meta.isshow">
       <van-tabbar-item replace to="/shop/home" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item replace to="/shop/kc" icon="bar-chart-o">课程</van-tabbar-item>
@@ -16,10 +15,6 @@
 <script>
 export default {
   methods: {
-    // 邮件留言
-    ly() {
-      this.$router.push("/leave");
-    }
   }
 };
 </script>
@@ -38,19 +33,5 @@ export default {
   color: rgb(235, 97, 0);
 }
 // 邮件留言
-.yj {
-  width: 100px;
-  height: 70px;
-  background: dodgerblue;
-  position: fixed;
-  top: 80%;
-  left: 85%;
-  font-size: 20px;
-  color: #fff;
-  line-height: 70px;
-  border-radius: 20px;
-  padding: 5px;
-  box-sizing: border-box;
-  text-align: center;
-}
+
 </style>

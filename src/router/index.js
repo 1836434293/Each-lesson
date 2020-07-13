@@ -42,13 +42,6 @@ Vue.use(VueRouter)
     }
   },
   {
-    path: '/leave',
-    component:() => import( '../views/Leave.vue'),
-    meta:{
-      isshow:true
-    }
-  },
-  {
     path:'/shop',
     component: () => import('../components/Shop.vue'),
     meta:{

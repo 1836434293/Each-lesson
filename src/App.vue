@@ -5,6 +5,13 @@
   </div>
 </template>
 
+<script>
+import xinfeng from './utils/xinfeng'
+export default {
+  
+}
+</script>
+
 <style lang="less">
 *{
   margin: 0;
