@@ -26,9 +26,15 @@
             <div v-if="this.sel == '讲师介绍' ">
                 <div class="jian_nav">
                     <p v-for="(item,index) in list" :key="index">
-                        <span class="jian_left">{{item.attr_name}}</span>
+                        <span class="jian_left">
+                            <span v-if="item.attr_name == '年级'"></span>
+                            <span v-else-if="item.attr_name == '学科'"></span>
+                            <span v-else>{{item.attr_name}}</span>
+                        </span>
                         <span class="jian_right" v-for="(v,i) in item.attr_value" :key="i"> 
-                                {{v.attr_value_name}}
+                                <span v-if="item.attr_name == '年级'"></span>
+                                <span v-else-if="item.attr_name == '学科'"></span>
+                                <span v-else>{{v.attr_value_name}}</span>
                         </span>
                     </p>
                     <p>
