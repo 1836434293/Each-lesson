@@ -134,12 +134,18 @@ export default {
     },
     courses(v){
       // window.console.log(v)
-      this.$router.push({
-        path:'courses',
-        query:{
-          id:v.id
-        }
-      })
+      var temp = JSON.parse(window.localStorage.getItem('token'))
+      if(temp){
+        this.$router.push({
+          path:'courses',
+          query:{
+            id:v.id
+          }
+        })
+      }else{
+        alert('需要先登录哦')
+        this.$router.push('loding')
+      }  
     }
   },
   filters: {

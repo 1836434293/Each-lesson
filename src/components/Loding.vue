@@ -54,7 +54,7 @@ export default {
         dlu(){
             let mobile = JSON.parse(window.localStorage.getItem('mobile'))
             if(this.mobile != mobile){
-                alert('手机号错误')
+                alert('还没注册哦~')
                 return
             }
             this.http.post('/api/app/login',{mobile:mobile,password:this.pass,type:1}).then((resp)=>{
