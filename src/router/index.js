@@ -140,6 +140,20 @@ Vue.use(VueRouter)
       meta:{
         isshow:false
       }
+    },
+    {
+      path:'concerns',
+      component:() => import('../components/Concerns'),
+      meta:{
+        isshow:false
+      }
+    },
+    {
+      path:'collection',
+      component:() => import('../components/Collection'),
+      meta:{
+        isshow:false
+      }
     }
     ]
   },{

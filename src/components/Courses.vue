@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="courses_title_right">
-                <span class="iconfont icon-shoucang1" style="font-size: 0.7rem;"></span>
+                <span class="iconfont icon-shoucang1 collection" :style="this.iscollection ? 'color:orange' : 'gray' " @click="Collection"></span>
             </div>
         </div>
 
@@ -94,7 +94,9 @@ export default {
             sales_num:0,
             teacher:[],
             course_details:'',
-            CommentsList:[]
+            CommentsList:[],
+            iscollection:false,
+            collect_id:0
         }
     },
     mounted(){
@@ -110,7 +112,7 @@ export default {
             this.sales_num = data.data.info.sales_num
             this.teacher = data.data.teachers
             this.course_details = data.data.info.course_details
-            window.console.log(data.data)
+            window.console.log(data)
         },
         back(){
             window.history.back()
@@ -119,6 +121,27 @@ export default {
             let {data:res} = await this.http.post('/api/app/courseComment',{id:this.$route.query.id,limit:10,page:1})
             window.console.log(res)
             this.CommentsList = res.data.list
+        },
+        Collection(){
+            this.iscollection = !this.iscollection
+            if(this.iscollection){
+                this.http.post('/api/app/collect',{course_basis_id: this.$route.query.id,type: 1}).then((resp)=>{
+                    window.console.log(resp)
+                    if(resp.data.code == 200){
+                        window.console.log(resp)
+                        alert('收藏成功')
+                        this.collect_id = resp.data.data
+                    }
+                })
+            }else{
+                this.http.put(`/api/app/collect/cancel/${this.collect_id}/1`).then((resp)=>{
+                    window.console.log(resp)
+                    if(resp.data.code == 200){
+                        alert('取消收藏成功')
+                    }
+                })
+            }
+            
         }
     },
     filters:{
@@ -283,6 +306,9 @@ export default {
 }
 .img img{
     height: 70%;
+}
+.collection{
+    font-size: 0.7rem;
 }
 
 </style>

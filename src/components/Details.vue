@@ -14,7 +14,7 @@
                 <div style="font-size:0.35rem;margin-top:0.2rem;color:gray"><span>{{this.$route.query.sex | sex}}</span> <span>{{this.$route.query.teach_age}}年教龄</span></div>
             </div>
             <div class="details_tearch_img">
-                <button @click="concerns">{{concern}}</button>
+                <button @click="concerns" :class="isflag?'color:grey':'color:orange'">{{concern}}</button>
             </div>
         </div>
         <div class="details_content">
@@ -77,7 +77,8 @@ export default {
             obj:{},
             list:[],
             lectureList:[] ,
-            concern:'关注'
+            concern:'关注',
+            isflag:false
         }
     },
     mounted(){
@@ -105,10 +106,14 @@ export default {
         async concerns(){
             let {data} = await this.http.get(`/api/app/teacher/collect/${this.$route.query.id}`)
             window.console.log(data)
-            if(data.data.flag != 0){
+            if(data.data.flag==1){
                 this.concern = '已关注'
+                alert('关注成功')
+                this.isflag=true
             }else{
                 this.concern = '关注'
+                alert('已取消关注')
+                this.isflag=false
             }
         }
     },

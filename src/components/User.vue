@@ -47,9 +47,9 @@
      <div class="Kc">
           <h4>课程相关</h4>
         <van-grid icon-size="32px">
-            <van-grid-item icon="description" text="我的作业"></van-grid-item>
-            <van-grid-item  icon="friends-o" text="关注的老师" />
-            <van-grid-item  icon="star-o" text="我的收藏" />
+            <van-grid-item icon="description" text="我的作业" />
+            <van-grid-item  icon="friends-o" text="关注的老师" url="concerns" />
+            <van-grid-item  icon="star-o" text="我的收藏" url="collection" />
             <van-grid-item  icon="down" text="我的下载" />
         </van-grid>
 
@@ -66,7 +66,7 @@
      <div class="Zh">
        <h4>我的账户</h4>
         <van-grid icon-size="32px" >
-            <van-grid-item icon="balance-pay" text="优惠价"></van-grid-item>
+            <van-grid-item icon="balance-pay" text="优惠价" />
             <van-grid-item  icon="credit-pay" text="学习卡" />
             <van-grid-item  icon="bulb-o" text="会员" />
  
@@ -75,7 +75,7 @@
      <div class="Fw">
         <h4>自助服务</h4>
         <van-grid icon-size="32px">
-            <van-grid-item icon="user-circle-o" text="我的消息"></van-grid-item>
+            <van-grid-item icon="user-circle-o" text="我的消息" />
             <van-grid-item  icon="envelop-o" text="意见反馈" />
             <van-grid-item  icon="phone-circle-o" text="在线客服" />
             <van-grid-item  icon="wap-home-o" text="设置" />

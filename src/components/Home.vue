@@ -133,7 +133,7 @@ export default {
       }
     },
     courses(v){
-      // window.console.log(v)
+      window.console.log(v)
       var temp = JSON.parse(window.localStorage.getItem('token'))
       if(temp){
         this.$router.push({
