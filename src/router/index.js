@@ -122,8 +122,9 @@ Vue.use(VueRouter)
       path:'user',
       component:() => import('../components/User.vue'),
       beforeEnter: (to, from, next) => {
+        var mobile = JSON.parse(window.localStorage.getItem('mobile'))
         var temp = JSON.parse(window.localStorage.getItem('token'))
-        if(temp){
+        if(temp || mobile){
           next()
         }else{
           alert('需要先登录')
