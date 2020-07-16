@@ -64,7 +64,7 @@ export default {
     methods: {
         // 返回首页
         onClickLeft(){
-            this.$router.push("/shop/home")
+            window.history.back()
         }
     },
 }

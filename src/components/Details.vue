@@ -19,9 +19,9 @@
         </div>
         <div class="details_content">
             <div class="details_content_top">
-                <div :class="this.sel == '讲师介绍' ? 'sel' : 'aa' " @click="selClick('讲师介绍')">讲师介绍</div>
-                <div :class="this.sel == '主讲课程' ? 'sel' : 'aa' " @click="selClick('主讲课程')">主讲课程</div>
-                <div :class="this.sel == '学员评价' ? 'sel' : 'aa' " @click="selClick('学员评价')">学员评价</div>
+                <div :class="this.sel == '讲师介绍' ? 'bb' : 'aa' " @click="selClick('讲师介绍')">讲师介绍</div>
+                <div :class="this.sel == '主讲课程' ? 'bb' : 'aa' " @click="selClick('主讲课程')">主讲课程</div>
+                <div :class="this.sel == '学员评价' ? 'bb' : 'aa' " @click="selClick('学员评价')">学员评价</div>
             </div>
             <div v-if="this.sel == '讲师介绍' ">
                 <div class="jian_nav">
@@ -211,7 +211,7 @@ export default {
 .aa{
     border-bottom: 1px solid #f0f2f5;
 }
-.sel{
+.bb{
     color: #EB6100;
     border-bottom: 1px solid #EB6100;
 }

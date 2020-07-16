@@ -63,7 +63,7 @@ export default {
       this.$refs.div2.style.borderBottom = "1px solid lightgray";
     },
     password() {
-      this.$router.push("/shop/loding");
+      this.$router.push("/loding");
     },
     // 获取验证码
     hq() {
@@ -106,9 +106,9 @@ export default {
       window.localStorage.setItem("mobile", JSON.stringify(this.user));
       window.localStorage.setItem("sms_code", JSON.stringify(this.code));
       if (msg.data.is_new == 1) {
-        this.$router.push("/shop/szpassword");
+        this.$router.push("/szpassword");
       } else if (msg.data.is_buy == 2) {
-        this.$router.push("/shop/user");
+        this.$router.push("/user");
       }
     }
   }

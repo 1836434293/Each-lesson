@@ -1,220 +1,170 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-
-const Search =()=>import('@/components/Search')
-
+import Home from '@/views/Home.vue'
+import My from '@/components/Home'
+import One from "@/views/One.vue"
+// import Leave from "@/views/Leave.vue"
+import Detail from "@/components/Details.vue"
+import Gz from "@/components/Concerns.vue"
+import Course from "@/components/Courses.vue"
+import Concerns from '@/components/Concerns'
+// import Collection from '@/components/Collection'
+// 二级路由
+import Sho from "@/components/Shop.vue"
+import Kc from "@/components/Kc.vue"
+import Yk from "@/components/Yk.vue"
+import Lx from "@/components/Lx.vue"
+import User from "@/components/User.vue"
+import Simulation from "@/components/SimulationModelTest.vue"
+import Kd from "@/views/Kd.vue"
+import Qd from "@/views/Kd/Qd.vue"
+import Hx from "@/views/Kd/Hx.vue"
+import Sw from "@/views/Kd/Sw.vue"
+import Jx from "@/views/Kd/Jx.vue"
+import Sx from "@/views/Kd/Sx.vue"
+import Wl from "@/views/Kd/Wl.vue"
+import English from "@/views/Kd/English.vue"
+import Loiding from "@/components/Loding.vue"
+import Password from "@/components/FindThePassword.vue"
+import Reg from "@/components/RegistrationOfBoarding.vue"
+import Szpassword from "@/components/Szpassword.vue"
 Vue.use(VueRouter)
 
   const routes = [
   {
-    path: '/',redirect: '/shop/home',
+    path: '/',
     name: 'Home',
     component: Home,
-    meta:{
-      isshow:true
+    redirect:"/my",
+    children:[
+      {
+        path:"sho",
+        component:Sho
+      }
+    ]
+  },
+  {
+    path:'/kd',
+    component:Kd,
+    children:[
+      {
+        path:'qd',
+        component:Qd
+      },
+      {
+        path:'hx',
+        component:Hx
+      },
+      {
+        path:'sw',
+        component:Sw
+      },
+      {
+        path:'jx',
+        component:Jx
+      },
+      {
+        path:'sx',
+        component:Sx
+      },
+      {
+        path:'wl',
+        component:Wl
+      },
+      {
+        path:'english',
+        component:English
+      }
+    ]
+  },
+  {
+    path:'/one',
+    component:One
+  },
+  // {
+  //   path:'/leave',
+  //   component:Leave
+  // },
+  {
+    path:'/detail',
+    component:Detail
+  },
+  {
+    path:'/gz',
+    component:Gz
+  },
+  {
+    path:"/courses",
+    component:Course
+  },
+  {
+    path:"/my",
+    component:My
+  },
+  {
+   path:"/kc",
+   component:Kc
+  },
+  {
+    path:"/yk",
+    component:Yk
+  },
+  {
+    path:"/lx",
+    component:Lx,
+  },
+  {
+    path:"/user",
+    component:User,
+    beforeEnter: (to, from, next) => {
+      var temp = JSON.parse(window.localStorage.getItem('token'))
+      if(temp){
+        next()
+      }else{
+        alert('需要先登录')
+        next('/loding')
+      }
     }
   },
   {
-    path:'/Search',
-    name:'Search',
-    component:Search,
-    meta:{
-      isshow:true
-    }
+    path:'/loding',
+    component:Loiding
   },
+  {
+    path:'/reg',
+    component:Reg
+  },
+  {
+    path:'/password',
+    component:Password
+  },
+  {
+    path:'/szpassword',
+    component:Szpassword
+  },
+  {
+    path:'/simulation',
+    component:Simulation
+  },
+  {
+    path:'/concerns',
+    component:Concerns
+  },
+  // {
+  //   path:'/collection',
+  //   component:Collection
+  // },
   {
     path: '/about',
     name: 'About',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-    meta:{
-      isshow:true
-    }
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
-  {
-    path: '/one',
-    component: () => import('../views/One.vue'),
-    meta:{
-      isshow:true
-    }
-  },
-  {
-    path:'/shop',
-    component: () => import('../components/Shop.vue'),
-    meta:{
-      isshow:true
-    },
-    children:[
-      {
-       path:'kc',
-       component:() => import('../components/Kc.vue'),
-       meta:{
-         isshow:true
-       }
-     },
-     {
-       path:'yk',
-       component:() => import('../components/Yk.vue'),
-       meta:{
-         isshow:true
-       }
-     },
-     {
-       path:'lx',
-       component:() => import('../components/Lx.vue'),
-       meta:{
-         isshow:true
-       }
-      
-     },
-     {
-       path:'loding',
-       component:() => import('../components/Loding.vue'),
-       meta:{
-         isshow:false
-       }
-     },
-     {
-       path:'password',
-       component:() => import('../components/FindThePassword.vue'),
-       meta:{
-         isshow:false
-       }
-     },
-     {
-      path:'reg',
-      component:() => import('../components/RegistrationOfBoarding.vue'),
-      meta:{
-        isshow:false
-      }
-    },{
-      path:'courses',
-      component:() => import('../components/Courses.vue'),
-      meta:{
-        isshow:false
-      }
-    },
-    {
-     path:'simulation',
-     component:() => import('../components/SimulationModelTest.vue'),
-     meta:{
-       isshow:true
-     }
-   },
-     {
-      path:'home',
-      component:() => import('../components/Home.vue'),
-      meta:{
-        isshow:true
-      }
-    },
-    {
-      path:'szpassword',
-      component:() => import('../components/Szpassword.vue'),
-      meta:{
-        isshow:false
-      }
-    },
-    {
-      path:'user',
-      component:() => import('../components/User.vue'),
-      beforeEnter: (to, from, next) => {
-        var temp = JSON.parse(window.localStorage.getItem('token'))
-        if(temp){
-          next()
-        }else{
-          alert('需要先登录')
-          next('loding')
-        }
-      },
-      meta:{
-        isshow:true
-      }
-    },
-    {
-      path:'details',
-      component:() => import('../components/Details'),
-      meta:{
-        isshow:false
-      }
-    },
-    {
-      path:'concerns',
-      component:() => import('../components/Concerns'),
-      meta:{
-        isshow:false
-      }
-    },
-    {
-      path:'collection',
-      component:() => import('../components/Collection'),
-      meta:{
-        isshow:false
-      }
-    }
-    ]
-  },{
-    path:'/kd',
-    component: () => import('../views/Kd.vue'),
-    meta:{
-      isshow:true
-    },
-    children:[
-      {
-        path:'qd',
-        component:() => import('../views/Kd/Qd.vue'),
-        meta:{
-          isshow:true
-        }
-      },
-      {
-        path:'hx',
-        component:() => import('../views/Kd/Hx.vue'),
-        meta:{
-          isshow:true
-        }
-      }, {
-        path:'sw',
-        component:() => import('../views/Kd/Sw.vue'),
-        meta:{
-          isshow:true
-        }
-      }, {
-        path:'jx',
-        component:() => import('../views/Kd/Jx.vue'),
-        meta:{
-          isshow:true
-        }
-      }, {
-        path:'sx',
-        component:() => import('../views/Kd/Sx.vue'),
-        meta:{
-          isshow:true
-        }
-      }, {
-        path:'wl',
-        component:() => import('../views/Kd/Wl.vue'),
-        meta:{
-          isshow:true
-        }
-      },
-      {
-        path:'english',
-        component:() => import('../views/Kd/English.vue'),
-        meta:{
-          isshow:true
-        }
-      }
-    ]
-  }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
   routes
 })
 

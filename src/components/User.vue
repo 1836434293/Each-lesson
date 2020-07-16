@@ -48,8 +48,8 @@
           <h4>课程相关</h4>
         <van-grid icon-size="32px">
             <van-grid-item icon="description" text="我的作业" />
-            <van-grid-item  icon="friends-o" text="关注的老师" url="concerns" />
-            <van-grid-item  icon="star-o" text="我的收藏" url="collection" />
+            <van-grid-item  icon="friends-o" text="关注的老师" to="/concerns" />
+            <van-grid-item  icon="star-o" text="我的收藏" to="/collection" />
             <van-grid-item  icon="down" text="我的下载" />
         </van-grid>
 

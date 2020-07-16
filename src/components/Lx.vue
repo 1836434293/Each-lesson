@@ -1,7 +1,7 @@
 <template>
   <div class="lv">
-    <div class="header">
-        <p>练习</p>
+    <div class="aa">
+      练习
     </div>
      <div class="nav">
           <ul>
@@ -61,7 +61,7 @@ data(){
 methods:{
   getKd(index){
     if(index==2){
-      this.$router.push('/shop/simulation')
+      this.$router.push('/simulation')
     }else{
     this.$router.push('/kd')
     }
@@ -71,15 +71,19 @@ methods:{
 </script>
 
 <style scoped>
- .header{
-   height: 80px;
-   text-align: center;
+ .aa{
+   width: 100%;
+   height:100px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
    background-color: white;
    margin-bottom: 20px;
+   font-size: 0.55rem;
  }
- .header p{
+ /* .header p{
    line-height: 80px;
- }
+ } */
  .nav{
    width: 96%;
    background-color: white;

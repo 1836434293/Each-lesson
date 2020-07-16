@@ -117,7 +117,7 @@ export default {
       var temp = JSON.parse(window.localStorage.getItem('token'))
       if(temp){
         this.$router.push({
-          path:'details',
+          path:'/detail',
           query:{
             id:v.teacher_id,
             img:data.data.teacher.avatar,
@@ -137,7 +137,7 @@ export default {
       var temp = JSON.parse(window.localStorage.getItem('token'))
       if(temp){
         this.$router.push({
-          path:'courses',
+          path:'/courses',
           query:{
             id:v.id
           }

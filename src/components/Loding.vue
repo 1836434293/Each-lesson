@@ -45,10 +45,10 @@ export default {
             this.$refs.div2.style.borderBottom = '1px solid lightgray'
         },
         password(){
-            this.$router.push('/shop/password')
+            this.$router.push('/password')
         },
         reg(){
-            this.$router.push('/shop/reg')
+            this.$router.push('/reg')
         },
         // 登录
         dlu(){
@@ -62,7 +62,7 @@ export default {
                 if(resp.data.code == 201){
                     alert(resp.data.msg)
                 }else{
-                    this.$router.push('user')
+                    this.$router.push('/user')
                 }
             })
         }

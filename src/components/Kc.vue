@@ -13,15 +13,17 @@
     <div class="kc_vant">
       <van-dropdown-menu style="width:100%;height:1rem">
         <van-dropdown-item title="分类" ref="item">
-          <div v-for="(item,index) in list" :key="index" style="border-bottom:1px solid lightgray">
-            <div class="kc_item_name">{{item.name}}</div>
+            <div class="kc_item_name">班级</div>
             <div class="kc_item_child">
-              <div v-for="(v,i) in item.child" :key="i" class="kc_item_child_v">{{v.name}}</div>
+              <div v-for="(v,i) in this.onelist" :key="i" :class="['kc_item_child_v',oneIndex == v.id ? 'sel' : '']" @click="onefn(v)">{{v.name}}</div>
             </div>
-          </div>
+            <div class="kc_item_name">学科</div>
+            <div class="kc_item_child">
+              <div v-for="(v,i) in this.twolist" :key="i" :class="['kc_item_child_v',twoIndex == v.id ? 'sel' : '']" @click="twofn(v)">{{v.name}}</div>
+            </div>
           <div class="kc_item_child_button">
-            <button style="border:1px solid lightgray">重置</button>
-            <button style="background:#EB6100;color:white">确定</button>
+            <button style="border:1px solid lightgray" @click="reset">重置</button>
+            <button style="background:#EB6100;color:white" @click="ok">确定</button>
           </div>
         </van-dropdown-item>
 
@@ -43,28 +45,37 @@
     </div>
 
     <div class="ul" style="margin-bottom:2rem">
-      <div class="li" v-for="(v,i) of this.item" :key="i">
-        <h4>
-          <span>{{ v.title }}</span>
-        </h4>
-        <div style="font-size:0.3rem;color:gray">
-          {{v.start_play_date | time}}
-          <span style="margin:0rem 0.1rem">~</span>
-          {{v.end_play_date | time}}
-          <span style="margin:0rem 0.1rem">|</span>
-          共{{v.total_periods}}课时
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+        :immediate-check="this.isScroll"
+      >
+        <div class="li" v-for="(v,i) of this.item" :key="i">
+          <h4>
+            <span>{{ v.title }}</span>
+          </h4>
+          <div style="font-size:0.3rem;color:gray">
+            {{v.start_play_date | time}}
+            <span style="margin:0rem 0.1rem">~</span>
+            {{v.end_play_date | time}}
+            <span style="margin:0rem 0.1rem">|</span>
+            共{{v.total_periods}}课时
+          </div>
+          <div class="bo" v-for="(item,index) in v.teachers_list" :key="index">
+            <h3>
+              <img :src="item.teacher_avatar" alt />
+              <p>{{ item.teacher_name }}</p>
+            </h3>
+          </div>
+          <h2>
+            <p>{{ v.sales_num }}人报名</p>
+            <b id="pr">{{ v.price | price}}</b>
+          </h2>
         </div>
-        <div class="bo" v-for="(item,index) in v.teachers_list" :key="index">
-          <h3>
-            <img :src="item.teacher_avatar" alt />
-            <p>{{ item.teacher_name }}</p>
-          </h3>
-        </div>
-        <h2>
-          <p>{{ v.sales_num }}人报名</p>
-          <b id="pr">{{ v.price | price}}</b>
-        </h2>
-      </div>
+      </van-list>
+      
     </div>
   </div>
 </template>
@@ -73,7 +84,19 @@
 export default {
   data() {
     return {
-      list: [],
+      msg:{
+        page:1,
+        limit:10,
+        course_type:'',
+        classify_id:'',
+        order_by:'',
+        attr_val_id:'',
+        is_vip:0
+      },
+      onelist: [],
+      twolist:[],
+      oneIndex:-1,
+      twoIndex:-1,
       sortList: ["综合排序", "最新", "最热", "价格从低到高", "价格从高到低"],
       course_types: [
         { type: 0, value: "全部" },
@@ -87,23 +110,20 @@ export default {
         { type: 10, value: "图文课" },
         { type: 11, value: "会员课" }
       ],
-      item: []
+      item: [],
+      loading: false,
+      finished: false,
+      isScroll:false
     };
   },
   mounted() {
     this.http.get("/api/app/courseClassify").then(resp => {
+      this.onelist = resp.data.data.attrclassify[0].child;
+      this.twolist = resp.data.data.attrclassify[1].child;
       window.console.log(resp);
-      this.list = resp.data.data.attrclassify;
     });
 
-    this.http
-      .get(
-        "/api/app/courseBasis?page=1&limit=10&course_type=3&classify_id=&order_by=&attr_val_id=&is_vip=0"
-      )
-      .then(resp => {
-        window.console.log(resp);
-        this.item = resp.data.data.list;
-      });
+    this.kc()
   },
   filters:{
     time(value){
@@ -119,9 +139,52 @@ export default {
     }
   },
   methods:{
+    async kc(){
+      let temp = this.item
+      let { data:res } = await this.http.get("/api/app/courseBasis",{params:this.msg})
+      this.item = temp.concat(res.data.list)
+      if(res.data.list.length == 0){
+        this.finished = true// 加载状态结束
+        this.loading = false;
+      }
+    },
     search(){
       this.$router.push('/Search')
-    }
+    },
+    onLoad() {
+      // 异步更新数据
+      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+      setTimeout(() => {
+        window.console.log(123)
+        this.msg.page++
+        this.kc()
+      }, 1000);
+    },
+    twofn(v){
+      this.twoIndex = v.id
+    },
+    onefn(v){
+      this.oneIndex = v.id
+    },
+    reset(){
+      this.oneIndex = -1
+      this.twoIndex = -1
+      this.msg.attr_val_id = ''
+      this.kc()
+    },
+    ok(){
+      var temp = []
+      if(this.oneIndex != -1){
+        temp.push(this.oneIndex)
+      }
+      if(this.twoIndex != -1){
+        temp.push(this.twoIndex)
+      }
+      var templist =temp.join(',')
+      this.msg.attr_val_id = templist
+      this.kc()
+      window.console.log(templist)
+    } 
   }
 };
 </script>
@@ -255,5 +318,9 @@ export default {
             }
           }
         }
+      }
+      .sel{
+        background: orange;
+        color: white;
       }
 </style>
