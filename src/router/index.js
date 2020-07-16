@@ -8,7 +8,7 @@ import Detail from "@/components/Details.vue"
 import Gz from "@/components/Concerns.vue"
 import Course from "@/components/Courses.vue"
 import Concerns from '@/components/Concerns'
-import Collection from '@/components/Collection'
+// import Collection from '@/components/Collection'
 // 二级路由
 import Sho from "@/components/Shop.vue"
 import Kc from "@/components/Kc.vue"
@@ -150,10 +150,10 @@ Vue.use(VueRouter)
     path:'/concerns',
     component:Concerns
   },
-  {
-    path:'/collection',
-    component:Collection
-  },
+  // {
+  //   path:'/collection',
+  //   component:Collection
+  // },
   {
     path: '/about',
     name: 'About',
