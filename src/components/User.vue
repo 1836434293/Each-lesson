@@ -17,7 +17,7 @@
             <ul>
               <li>
                   <p>0</p>
-                  <h6>我的课程</h6>
+                  <h6 @click="SpecialCourses">我的课程</h6>
                   <b>-易购课程学习-</b>
               </li>
               <li>
@@ -96,6 +96,11 @@ export default {
   mounted(){
     let mobile = JSON.parse(window.localStorage.getItem('mobile'))
     this.mobile = mobile
+  },
+  methods:{
+    SpecialCourses(){
+      this.$router.push('/specialcourses')
+    }
   }
 }
 </script>

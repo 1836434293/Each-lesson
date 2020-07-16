@@ -29,6 +29,7 @@
     "less-loader": "^5.0.0",
     "lib-flexible": "^0.3.2",
     "postcss-px2rem": "^0.3.0",
+    "vue-qriously": "^1.1.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

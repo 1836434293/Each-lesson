@@ -13,14 +13,19 @@
     <div class="kc_vant">
       <van-dropdown-menu style="width:100%;height:1rem">
         <van-dropdown-item title="分类" ref="item">
-            <div class="kc_item_name">班级</div>
+
+            <div class="kc_item_child">
+              <div v-for="(v,i) in this.list" :key="i" :class="['kc_item_child_v',twoIndex == v.id ? 'sel' : '']" @click="twofn(v)">{{v.name}}</div>
+            </div>
+
+            <!-- <div class="kc_item_name">班级</div>
             <div class="kc_item_child">
               <div v-for="(v,i) in this.onelist" :key="i" :class="['kc_item_child_v',oneIndex == v.id ? 'sel' : '']" @click="onefn(v)">{{v.name}}</div>
             </div>
             <div class="kc_item_name">学科</div>
             <div class="kc_item_child">
               <div v-for="(v,i) in this.twolist" :key="i" :class="['kc_item_child_v',twoIndex == v.id ? 'sel' : '']" @click="twofn(v)">{{v.name}}</div>
-            </div>
+            </div> -->
           <div class="kc_item_child_button">
             <button style="border:1px solid lightgray" @click="reset">重置</button>
             <button style="background:#EB6100;color:white" @click="ok">确定</button>
@@ -93,8 +98,9 @@ export default {
         attr_val_id:'',
         is_vip:0
       },
-      onelist: [],
-      twolist:[],
+      // onelist: [],
+      // twolist:[],  //这两个是正式接口的分类的数据
+      list:[],       //这是测试接口的分类的数据
       oneIndex:-1,
       twoIndex:-1,
       sortList: ["综合排序", "最新", "最热", "价格从低到高", "价格从高到低"],
@@ -118,9 +124,12 @@ export default {
   },
   mounted() {
     this.http.get("/api/app/courseClassify").then(resp => {
-      this.onelist = resp.data.data.attrclassify[0].child;
-      this.twolist = resp.data.data.attrclassify[1].child;
       window.console.log(resp);
+      // this.onelist = resp.data.data.attrclassify[0].child;
+      // this.twolist = resp.data.data.attrclassify[1].child;   //这两个是正式接口的分类的数据
+
+      this.list = resp.data.data.appCourseType
+      //这是测试接口的分类的数据
     });
 
     this.kc()
@@ -262,6 +271,7 @@ export default {
   background: #f5f5f5;
   font-size: 0.3rem;
   margin-right: 0.45rem;
+  margin-top: 0.2rem;
   display: flex;
   justify-content: center;
   align-items: center;

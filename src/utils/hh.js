@@ -8,7 +8,7 @@ if (!DeviceID) {
 }
 let ID = DeviceID;
 // console.log(ID)
-axios.defaults.baseURL = 'https://www.365msmk.com';
+axios.defaults.baseURL = 'http://120.53.31.103:84';
 
 // 请求拦截器
 axios.interceptors.request.use(function(res){

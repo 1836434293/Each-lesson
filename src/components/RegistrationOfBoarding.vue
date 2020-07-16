@@ -100,7 +100,7 @@ export default {
         type: 2,
         client: 1
       });
-      // console.log(msg);
+      console.log(msg);
       window.localStorage.setItem("token", JSON.stringify(msg.data.remember_token));
       window.localStorage.setItem("id", JSON.stringify(msg.data.id));
       window.localStorage.setItem("mobile", JSON.stringify(this.user));
@@ -108,6 +108,8 @@ export default {
       if (msg.data.is_new == 1) {
         this.$router.push("/szpassword");
       } else if (msg.data.is_buy == 2) {
+        this.$router.push("/user");
+      }else{
         this.$router.push("/user");
       }
     }

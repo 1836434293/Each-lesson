@@ -15,6 +15,10 @@ import http from "./utils/hh"
 Vue.prototype.http = http
 
 
+import VueQriously from 'vue-qriously'
+Vue.use(VueQriously)
+
+
 
 Vue.config.productionTip = false
 

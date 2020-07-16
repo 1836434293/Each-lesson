@@ -28,6 +28,7 @@ import Loiding from "@/components/Loding.vue"
 import Password from "@/components/FindThePassword.vue"
 import Reg from "@/components/RegistrationOfBoarding.vue"
 import Szpassword from "@/components/Szpassword.vue"
+import SpecialCourses from '@/components/SpecialCourses'
 Vue.use(VueRouter)
 
   const routes = [
@@ -223,6 +224,13 @@ Vue.use(VueRouter)
   {
     path:"/search",
     component:Search,
+    meta:{
+      isshow:false
+    }
+  },
+  {
+    path:'/specialcourses',
+    component:SpecialCourses,
     meta:{
       isshow:false
     }
