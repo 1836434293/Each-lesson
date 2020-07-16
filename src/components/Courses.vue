@@ -116,7 +116,7 @@ export default {
     },
     methods:{
         async getCourses(){
-            let { data } = await this.http.get(`/api/app/courseInfo/basis_id=${this.$route.query.id}`)
+            let { data } = await this.http.get(`/api/app/courseInfo/basis_id=${this.$route.query.id}&course_type=${this.$route.query.course_type}`)
             this.title = data.data.info.title
             this.price = data.data.info.price
             this.total_periods = data.data.info.total_periods

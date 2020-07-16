@@ -45,14 +45,14 @@
     </div>
 
     <div class="ul" style="margin-bottom:2rem">
-      <van-list
+      <!-- <van-list
         v-model="loading"
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad"
-        :immediate-check="this.isScroll"
-      >
-        <div class="li" v-for="(v,i) of this.item" :key="i">
+        :immediate-check="isScroll"
+      > -->
+        <div class="li" v-for="(v,i) of this.item" :key="i" @click="courses(v)">
           <h4>
             <span>{{ v.title }}</span>
           </h4>
@@ -74,7 +74,7 @@
             <b id="pr">{{ v.price | price}}</b>
           </h2>
         </div>
-      </van-list>
+      <!-- </van-list> -->
       
     </div>
   </div>
@@ -124,6 +124,18 @@ export default {
     });
 
     this.kc()
+
+    window.onscroll = () => {
+      let scrollTop = document.documentElement.scrollTop;
+      let scrollHeight = document.documentElement.scrollHeight;
+      let h1 = document.documentElement.clientHeight;
+      // console.log(scrollTop + h1, scrollHeight);
+      if (scrollTop + h1 >= scrollHeight) {
+        this.msg.page++;
+        window.console.log(this.msg.page)
+        this.kc()
+      }
+    };
   },
   filters:{
     time(value){
@@ -142,7 +154,12 @@ export default {
     async kc(){
       let temp = this.item
       let { data:res } = await this.http.get("/api/app/courseBasis",{params:this.msg})
-      this.item = temp.concat(res.data.list)
+      if(this.msg.page > 1){
+        this.item = temp.concat(res.data.list)
+      }else{
+        this.item = res.data.list
+      }
+      
       if(res.data.list.length == 0){
         this.finished = true// 加载状态结束
         this.loading = false;
@@ -154,11 +171,11 @@ export default {
     onLoad() {
       // 异步更新数据
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        window.console.log(123)
-        this.msg.page++
-        this.kc()
-      }, 1000);
+      // setTimeout(() => {
+      //   window.console.log(123)
+      //   this.msg.page++
+      //   this.kc()
+      // }, 1000);
     },
     twofn(v){
       this.twoIndex = v.id
@@ -170,6 +187,7 @@ export default {
       this.oneIndex = -1
       this.twoIndex = -1
       this.msg.attr_val_id = ''
+      this.msg.page = 1
       this.kc()
     },
     ok(){
@@ -182,9 +200,20 @@ export default {
       }
       var templist =temp.join(',')
       this.msg.attr_val_id = templist
+      this.msg.page = 1
       this.kc()
       window.console.log(templist)
-    } 
+    },
+    courses(v){
+      window.console.log(v)
+      this.$router.push({
+        path:'/courses',
+        query:{
+          id:v.id,
+          course_type:v.course_type
+        }
+      })
+    }
   }
 };
 </script>

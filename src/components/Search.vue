@@ -5,8 +5,8 @@
             <div>
                 <input @keydown.13="enter" v-model="value" placeholder="请输入内容" />
             </div>
-            <div @click="back">
-                取消
+            <div @click="enter">
+                搜索
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                 <span style="color:gray" class="iconfont icon-shanchu"></span>
             </div>
             <div class="search_history">
-                <div v-for="(item,index) in historyList" :key="index" class="search_history_item">
+                <div v-for="(item,index) in historyList" :key="index" class="search_history_item" @click="itemfn(item)">
                     {{item}}
                 </div>
             </div>
@@ -74,10 +74,19 @@ export default {
     methods:{
         onCancel(){
             this.$router.go(-1)
-            //点击取消
+            //点击取消unshift
         },
         enter(){
-            this.historyList.push(this.value)
+
+            var index = this.historyList.findIndex((ele)=>{
+                return ele === this.value
+            })
+            if(index != -1){
+                this.historyList.splice(index,1)
+            }
+            this.historyList.unshift(this.value)
+            
+
             this.http.get(`/api/app/courseBasis?limit=10&page=1&course_type=0&keywords=${this.value}`).then((resp)=>{
                 window.console.log(resp)
                 this.searchList = resp.data.data.list
@@ -85,6 +94,9 @@ export default {
         },
         back(){
             window.history.back()
+        },
+        itemfn(item){
+            this.value = item
         }
     },
     filters:{

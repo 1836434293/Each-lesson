@@ -139,7 +139,8 @@ export default {
         this.$router.push({
           path:'/courses',
           query:{
-            id:v.id
+            id:v.id,
+            course_type:v.course_type
           }
         })
       }else{

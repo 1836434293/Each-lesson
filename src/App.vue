@@ -2,7 +2,7 @@
   <div id="app">
    
     <router-view/>
-    <van-tabbar route>
+    <van-tabbar route v-show="this.$route.meta.isshow">
       <van-tabbar-item replace to="/my" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item replace to="/kc" icon="bar-chart-o">课程</van-tabbar-item>
       <van-tabbar-item replace to="/yk" icon="thumb-circle-o">约课记录</van-tabbar-item>

@@ -10,7 +10,7 @@ import Course from "@/components/Courses.vue"
 import Concerns from '@/components/Concerns'
 import Collection from '@/components/Collection'
 // 二级路由
-import Sho from "@/components/Shop.vue"
+import Search from "@/components/Search.vue"
 import Kc from "@/components/Kc.vue"
 import Yk from "@/components/Yk.vue"
 import Lx from "@/components/Lx.vue"
@@ -35,51 +35,72 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Home',
     component: Home,
-    redirect:"/my",
-    children:[
-      {
-        path:"sho",
-        component:Sho
-      }
-    ]
+    redirect:"/my"
   },
   {
     path:'/kd',
     component:Kd,
+    meta:{
+      isshow:false
+    },
     children:[
       {
         path:'qd',
-        component:Qd
+        component:Qd,
+        meta:{
+          isshow:false
+        }
       },
       {
         path:'hx',
-        component:Hx
+        component:Hx,
+        meta:{
+          isshow:false
+        }
       },
       {
         path:'sw',
-        component:Sw
+        component:Sw,
+        meta:{
+          isshow:false
+        }
       },
       {
         path:'jx',
-        component:Jx
+        component:Jx,
+        meta:{
+          isshow:false
+        }
       },
       {
         path:'sx',
-        component:Sx
+        component:Sx,
+        meta:{
+          isshow:false
+        }
       },
       {
         path:'wl',
-        component:Wl
+        component:Wl,
+        meta:{
+          isshow:false
+        }
       },
       {
         path:'english',
-        component:English
+        component:English,
+        meta:{
+          isshow:false
+        }
       }
     ]
   },
   {
     path:'/one',
-    component:One
+    component:One,
+    meta:{
+      isshow:false
+    }
   },
   // {
   //   path:'/leave',
@@ -87,31 +108,52 @@ Vue.use(VueRouter)
   // },
   {
     path:'/detail',
-    component:Detail
+    component:Detail,
+    meta:{
+      isshow:false
+    }
   },
   {
     path:'/gz',
-    component:Gz
+    component:Gz,
+    meta:{
+      isshow:false
+    }
   },
   {
     path:"/courses",
-    component:Course
+    component:Course,
+    meta:{
+      isshow:false
+    }
   },
   {
     path:"/my",
-    component:My
+    component:My,
+    meta:{
+      isshow:true
+    }
   },
   {
    path:"/kc",
-   component:Kc
+   component:Kc,
+   meta:{
+     isshow:true
+   }
   },
   {
     path:"/yk",
-    component:Yk
+    component:Yk,
+    meta:{
+      isshow:true
+    }
   },
   {
     path:"/lx",
     component:Lx,
+    meta:{
+      isshow:true
+    }
   },
   {
     path:"/user",
@@ -124,35 +166,66 @@ Vue.use(VueRouter)
         alert('需要先登录')
         next('/loding')
       }
+    },
+    meta:{
+      isshow:true
     }
   },
   {
     path:'/loding',
-    component:Loiding
+    component:Loiding,
+    meta:{
+      isshow:false
+    }
   },
   {
     path:'/reg',
-    component:Reg
+    component:Reg,
+    meta:{
+      isshow:false
+    }
   },
   {
     path:'/password',
-    component:Password
+    component:Password,
+    meta:{
+      isshow:false
+    }
   },
   {
     path:'/szpassword',
-    component:Szpassword
+    component:Szpassword,
+    meta:{
+      isshow:false
+    }
   },
   {
     path:'/simulation',
-    component:Simulation
+    component:Simulation,
+    meta:{
+      isshow:false
+    }
   },
   {
     path:'/concerns',
-    component:Concerns
+    component:Concerns,
+    meta:{
+      isshow:false
+    }
   },
   {
     path:'/collection',
-    component:Collection
+    component:Collection,
+    meta:{
+      isshow:false
+    }
+  },
+  {
+    path:"/search",
+    component:Search,
+    meta:{
+      isshow:false
+    }
   },
   {
     path: '/about',
