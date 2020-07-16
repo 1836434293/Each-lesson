@@ -8,8 +8,8 @@
             </div>
         </div>    
         <div v-if="this.list.length!=0">
-            <ul>
-                <li v-for="(v,i) of this.list" :key="i">
+            <div class="ul">
+                <div class="li" v-for="(v,i) of this.list" :key="i">
                 <h4>
                     <span>{{ v.title }}</span>
                     <span class="iconfont icon-xingxing" style="color:orange" @click="qx(v,i)"></span>
@@ -27,8 +27,8 @@
                     <p>{{ v.sales_num }}人报名</p>
                     <b id="pr">{{ v.price | price}}</b>
                 </h2>
-                </li>
-            </ul>
+                </div>
+            </div>
             <div class="aa">没有更多了...</div>
         </div>
         <div v-else>
@@ -133,10 +133,10 @@ export default {
     justify-content: center;
     align-items: center;
 }
-ul {
+.ul {
     width: 96%;
     margin: 0.4rem auto;
-        li {
+        .li {
           width: 100%;
           height: 407px;
           background: #fff;
