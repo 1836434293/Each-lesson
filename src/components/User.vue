@@ -8,25 +8,25 @@
      <div class="operation">
          <div class="operation_top">
             <span class="tx">
-              <img src="https://msmk2019.oss-cn-shanghai.aliyuncs.com/uploads/avatar.jpg" alt="">
+              <img :src="this.obj.avatar" alt="" @click="InfoFn">
             </span>
-            <span>{{mobile}}</span>
+            <span>{{this.obj.nickname}}</span>
             <span class="bian">编辑</span>
          </div>
         <div class="operation_up">
             <ul>
               <li>
-                  <p>0</p>
+                  <p>{{this.obj.courses}}</p>
                   <h6 @click="SpecialCourses">我的课程</h6>
                   <b>-易购课程学习-</b>
               </li>
               <li>
-                 <p>0</p>
+                 <p>{{this.obj.integral}}</p>
                   <h6>我的预约</h6>
                   <b>-一对一老师预约-</b>
               </li>
               <li>
-                 <p>0</p>
+                 <p>{{this.obj.oto}}</p>
                   <h6>剩余学习币</h6>
                   <b>-查看剩余学习币-</b>
               </li>
@@ -90,16 +90,21 @@
 export default {
   data() {
     return {
-      mobile:''
+      obj:{}
     }
   },
-  mounted(){
-    let mobile = JSON.parse(window.localStorage.getItem('mobile'))
-    this.mobile = mobile
+  created(){
+    this.http.get('/api/app/getUCenterInfo').then((resp)=>{
+      window.console.log(resp)
+      this.obj = resp.data.data
+    })
   },
   methods:{
     SpecialCourses(){
       this.$router.push('/specialcourses')
+    },
+    InfoFn(){
+      this.$router.push('/info')
     }
   }
 }

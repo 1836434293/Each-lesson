@@ -86,6 +86,9 @@ export default {
             }
             this.historyList.unshift(this.value)
             
+            if(this.historyList.length>5){
+                this.historyList.pop()
+            }
 
             this.http.get(`/api/app/courseBasis?limit=10&page=1&course_type=0&keywords=${this.value}`).then((resp)=>{
                 window.console.log(resp)

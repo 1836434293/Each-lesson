@@ -33,7 +33,7 @@
         </van-dropdown-item>
 
         <van-dropdown-item title="排序" ref="item">
-          <div v-for="(item,index) in sortList" :key="index" class="kc_sort">{{item}}</div>
+          <div v-for="(item,index) in sortList" :key="index" :class="['kc_sort',sel == index ? 'ee' : '']" @click="sortFn(index)">{{item}}</div>
         </van-dropdown-item>
 
         <van-dropdown-item title="筛选" ref="item">
@@ -41,8 +41,9 @@
             <div
               v-for="(v,i) in this.course_types"
               :key="i"
-              class="kc_item_child_v"
+              :class="['kc_item_child_v',seltwo == i ? 'ff' : '']"
               style="margin:0.2rem 0.2rem"
+              @click="shaixuan(i)"
             >{{v.value}}</div>
           </div>
         </van-dropdown-item>
@@ -119,7 +120,9 @@ export default {
       item: [],
       loading: false,
       finished: false,
-      isScroll:false
+      isScroll:false,
+      sel:0,
+      seltwo:-1
     };
   },
   mounted() {
@@ -222,12 +225,31 @@ export default {
           course_type:v.course_type
         }
       })
+    },
+    sortFn(index){
+      this.sel = index
+      this.msg.order_by = index
+      this.kc()
+      window.console.log(index)
+    },
+    shaixuan(index){
+      this.seltwo = index
+      let temp = this.course_types[index].type
+      this.msg.course_type = temp
+      this.kc()
     }
   }
 };
 </script>
 
 <style   lang="less">
+.ee{
+  color: orange;
+}
+.ff{
+  color: #EF7E2F;
+  background: #EBEEFE;
+}
 .kc_header_wrap {
   width: 100%;
   height: 100px;
@@ -268,7 +290,7 @@ export default {
 .kc_item_child_v {
   width: 20%;
   height: 1rem;
-  background: #f5f5f5;
+  // background: #f5f5f5;
   font-size: 0.3rem;
   margin-right: 0.45rem;
   margin-top: 0.2rem;

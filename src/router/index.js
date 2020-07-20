@@ -29,6 +29,8 @@ import Password from "@/components/FindThePassword.vue"
 import Reg from "@/components/RegistrationOfBoarding.vue"
 import Szpassword from "@/components/Szpassword.vue"
 import SpecialCourses from '@/components/SpecialCourses'
+import Info from '@/components/Info'
+import Modification from '@/components/Modification'
 Vue.use(VueRouter)
 
   const routes = [
@@ -132,34 +134,55 @@ Vue.use(VueRouter)
     path:"/my",
     component:My,
     meta:{
-      isshow:true
+      isshow:true,
+      title:"首页"
+    },
+    beforeEnter(to,from ,next){
+      document.title = to.meta.title
+      next()
     }
   },
   {
    path:"/kc",
    component:Kc,
    meta:{
-     isshow:true
-   }
+     isshow:true,
+     title:"课程"
+   },
+   beforeEnter(to,from,next){
+     document.title = to.meta.title
+    next()
+   }  
   },
   {
     path:"/yk",
     component:Yk,
     meta:{
-      isshow:true
+      isshow:true,
+      title:"约课记录"
+    },
+    beforeEnter(to,from,next){
+      document.title = to.meta.title
+      next()
     }
   },
   {
     path:"/lx",
     component:Lx,
     meta:{
-      isshow:true
+      isshow:true,
+      title:"练习"
+    },
+    beforeEnter(to,from,next){
+      document.title = to.meta.title
+      next()
     }
   },
   {
     path:"/user",
     component:User,
     beforeEnter: (to, from, next) => {
+      document.title = to.meta.title
       var temp = JSON.parse(window.localStorage.getItem('token'))
       if(temp){
         next()
@@ -169,14 +192,20 @@ Vue.use(VueRouter)
       }
     },
     meta:{
-      isshow:true
+      isshow:true,
+      title:"个人中心"
     }
   },
   {
     path:'/loding',
     component:Loiding,
     meta:{
-      isshow:false
+      isshow:false,
+      title:"登录"
+    },
+    beforeEnter(to,from,next){
+      document.title = to.meta.title
+      next()
     }
   },
   {
@@ -231,6 +260,20 @@ Vue.use(VueRouter)
   {
     path:'/specialcourses',
     component:SpecialCourses,
+    meta:{
+      isshow:false
+    }
+  },
+  {
+    path:'/info',
+    component:Info,
+    meta:{
+      isshow:false
+    }
+  },
+  {
+    path:'/modification',
+    component:Modification,
     meta:{
       isshow:false
     }

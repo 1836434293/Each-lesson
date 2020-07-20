@@ -7,33 +7,30 @@
                 <div class="iconfont icon-rili"></div>
             </div>
         </div>
-        <div class="SpecialCourses_typeNum">
-            <div class="SpecialCourses_typeNum_item">
-                <div :class="typeNumIndex == index ? 'dd' : '' " @click="typeNumFn(index)" v-for="(item,index) in typeNum" :key="index">
-                    {{item.name}}(0)
-                </div>    
-            </div>     
-        </div>    
-        <div v-if="this.courses.length != 0">
-            <div v-for="(item,index) in courses" :key="index" class="SpecialCourses_courses_item">
-                <div style="font-size:0.55rem;margin:0.4rem 0rem">
-                    {{item.title}}
+        <van-tabs @click="classfn">
+            <van-tab v-for="(v,i) in typeNum" :key="i" :title="`${v.name}(${v.num})`">
+                <div v-if="courses.length== 0">
+                    <div class="SpecialCourses_img">
+                        <img src="https://wap.365msmk.com//img/empty.0d284c2e.png" />
+                        <div style="font-size:0.4rem;color:gray;margin:0.4rem; 0rem">还没有课程，快去选择课程学习吧</div>
+                        <div class="SpecialCourses_img_div">选择课程</div>
+                    </div>
                 </div>
-                <div style="font-size:0.3rem;color:gray">
-                    {{item.start_play_date | time}} ~ {{item.end_play_date | time}}
-                    <span style="margin:0rem 0.3rem">|</span>
-                    共{{item.section_num}}课时
+                <div v-else>
+                    <div v-for="(item,index) in courses" :key="index" class="SpecialCourses_courses_item">
+                        <div style="font-size:0.55rem;margin:0.4rem 0rem">
+                            {{item.title}}
+                        </div>
+                        <div style="font-size:0.3rem;color:gray">
+                            {{item.start_play_date | time}} ~ {{item.end_play_date | time}}
+                            <span style="margin:0rem 0.3rem">|</span>
+                            共{{item.section_num}}课时
+                        </div>
+                        <div style="font-size:0.3rem;color:gray;margin-top:1.5rem" @click="del(item,index)">移除</div>
+                    </div>
                 </div>
-                <div style="font-size:0.3rem;color:gray;margin-top:1.5rem" @click="del(item,index)">移除</div>
-            </div>
-        </div>
-        <div v-else>
-            <div class="SpecialCourses_img">
-                <img src="https://wap.365msmk.com//img/empty.0d284c2e.png" />
-                <div style="font-size:0.4rem;color:gray;margin:0.4rem; 0rem">还没有课程，快去选择课程学习吧</div>
-                <div class="SpecialCourses_img_div">选择课程</div>
-            </div>
-        </div> 
+            </van-tab>
+        </van-tabs>
     </div>    
 </template>
 
@@ -43,21 +40,17 @@ export default {
         return{
             courses:[],       //  课程列表数据
             typeNum:[],        //  分类数据
-            typeNumIndex:-1
         }
     },
     mounted(){
-        this.specialCourses()
+        this.specialCourses(2)
     },
     methods:{
-        async specialCourses(){
-            let { data:res } = await this.http.get('/api/app/myStudy/2')
+        async specialCourses(type){
+            let { data:res } = await this.http.get(`/api/app/myStudy/${type}`)
             window.console.log(res)
             this.courses = res.data.courseList
             this.typeNum = res.data.typeNum
-        },
-        typeNumFn(index){
-            this.typeNumIndex = index
         },
         back(){
             window.history.back()
@@ -70,6 +63,10 @@ export default {
                     alert('删除成功')
                 }
             })
+        },
+        classfn(index){
+            let temp = this.typeNum[index].type
+            this.specialCourses(temp)
         }
     },
     filters:{
@@ -114,16 +111,8 @@ export default {
     height: 100%;
     display: flex;
 }
-.SpecialCourses_typeNum_item>div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90%;
-    margin: 0rem 0.3rem;
-}
-.dd{
-    color: #EB6100;
-    border-bottom: 1px solid #EB6100;
+.van-tabs--line{
+    width: 100%;
 }
 .SpecialCourses_img{
     width: 100%;

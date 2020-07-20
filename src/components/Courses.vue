@@ -185,12 +185,13 @@ export default {
                 window.console.log(resp)
                 if(resp.data.code != 200){
                     alert(resp.data.msg)
-                }else{
-                    if(resp.data.data.is_zero_buy == 1){
-                        window.console.log(this.$refs.btn.innerHTML)
-                        this.$refs.btn.innerHTML = '立即学习'
-                    }
+                    return
                 }
+                if(resp.data.data.is_zero_buy == 1){
+                    window.console.log(this.$refs.btn.innerHTML)
+                    alert('报名成功')
+                    this.$refs.btn.innerHTML = '立即学习'
+                }       
             })
         },
         Share(){
