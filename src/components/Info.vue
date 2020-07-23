@@ -6,16 +6,10 @@
             <div></div>
         </div>
         
-        <van-cell is-link title="头像" cancel-text="取消" close-on-click-action @click="show = true">
-            <img :src="this.obj.avatar" />
+        <van-cell is-link title="头像" cancel-text="取消" close-on-click-action @click="ImageHead('Image')">
+            <img class="ii" :src="this.obj.avatar" />
+            <input type="file" accept="image/*" style="display:none" ref="ImageHead" @change="ImgChange" />
         </van-cell>
-        <van-action-sheet
-            v-model="show"
-            :actions="actions"
-            cancel-text="取消"
-            @click="aa"
-            close-on-click-action
-        />
         <van-cell is-link title="昵称" @click="Modification">
             {{this.obj.nickname}}
         </van-cell>
@@ -39,12 +33,22 @@
             />
         </van-action-sheet>
 
-        <van-cell is-link title="所在城市" @click="city">
+        <van-cell is-link title="所在城市" @click="city('city')">
             {{this.obj.province_name}}   {{this.obj.city_name}} {{this.obj.district_name}}  
         </van-cell>
+
+
+        <!-- 弹层 -->
         <van-popup v-model="cityshow" position="bottom" :style="{ height: '30%' }">
-            <van-area title="标题" @change="citychange" :area-list="areaList" @confirm="cityconfirm" />
+            <div v-if="this.tag == 'Image'">
+                <button @click="Img">上传头像</button>
+            </div>
+            <div v-else-if="this.tag == 'city'">
+                <van-area title="标题" @change="citychange" :area-list="areaList" @confirm="cityconfirm" :value="this.obj.district_id+''" />
+            </div>
         </van-popup>
+
+
 
         <van-cell is-link title="学科" @click="Subject" />
 
@@ -70,7 +74,7 @@ export default {
     },
     data(){
         return{
-            show:false,
+            tag:'',
             actions: [{ name: '拍照' }, { name: '从本地相册选择' }],
             obj:{},
             rq:false,
@@ -94,6 +98,33 @@ export default {
         }
     },
     methods:{
+        ImgChange(e){
+            this.cityshow = false
+            window.console.log(e.target.files[0])
+            var file = e.target.files[0]
+            let fromdata = new FormData()
+            fromdata.append('file',file)
+            this.http.post('/api/app/public/img',fromdata).then((resp)=>{
+                window.console.log(resp)
+                if(resp.data.code == 200){
+                    return this.http.put('/api/app/user',{avatar:resp.data.data.path})
+                }
+            }).then((resp)=>{
+                window.console.log(resp)
+                if(resp.data.code == 200){
+                    this.ajaxInfo() // 刷新页面   重新对接 接口 获取最新数据
+                }else{
+                    alert('修改头像错误')
+                }
+            })
+        },
+        Img(){
+            this.$refs.ImageHead.click()
+        },
+        ImageHead(Image){
+            this.tag = Image;
+            this.cityshow = true 
+        },
         async ajaxInfo(){
             let { data:res } = await this.http.get('/api/app/userInfo')
             window.console.log(res)
@@ -156,12 +187,11 @@ export default {
         onCancel(){
             this.nj =false
         },
-        aa(){
-            window.console.log(123)
-        },
-        city(){
+        city(city){
             // 所在城市  事件
             this.cityshow = true
+
+            this.tag = city
 
             // 获取省的数据并同步data
             this.http.get('/api/app/sonArea/0').then((resp)=>{
@@ -175,7 +205,7 @@ export default {
                 
 
                 // 获取市 的数据
-                this.http.get(`/api/app/sonArea/${resp.data.data[0].id}`).then((re)=>{
+                this.http.get(`/api/app/sonArea/${this.obj.province_id ? this.obj.province_id : resp.data.data[0].id}`).then((re)=>{
                 // window.console.log(resp.data.data)
                     let data = {}
                     re.data.data.forEach((ele)=>{
@@ -186,7 +216,7 @@ export default {
 
 
                     // 获取区的数据
-                    this.http.get(`/api/app/sonArea/${re.data.data[0].id}`).then((el)=>{
+                    this.http.get(`/api/app/sonArea/${this.obj.city_id ? this.obj.city_id : re.data.data[0].id}`).then((el)=>{
                     // window.console.log(resp.data.data)
                         let temp = {}
                         el.data.data.forEach((ele)=>{
@@ -290,6 +320,7 @@ export default {
 }
 .van-cell__value img{
     width: 15%;
+    border-radius: 50%;
 }
 .van-action-sheet__item,.van-action-sheet__cancel{
     height: 1rem;
